@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,13 +23,16 @@ public class QuoteServlet extends HttpServlet {
 			"Whenever more than one thread accesses a given state variable, and one of them might write to it, they all must coordinate their access to it using synchronization. You should avoid the temptation to think that there are 'special' situations in which this rule does not apply.",
 			"A program that omits needed synchronization might appear to work, passing its tests and performing well for years, but it is still broken and may fail at any moment.", };
 
+	private Random randomNumberGenerator = new Random();
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		out.println("<html><head><title>Random quotes for everybody</title></head>");
 		out.println("<body><h2>Random quote</h2><p>");
 
-		int randomIndex = 0;
+		int numberOfQuotes = wordsOfWisdom.length;
+		int randomIndex = randomNumberGenerator.nextInt(numberOfQuotes);
 		String randomQuote = wordsOfWisdom[randomIndex];
 
 		out.println(randomQuote);
