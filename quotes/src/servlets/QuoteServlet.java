@@ -35,7 +35,7 @@ public class QuoteServlet extends HttpServlet {
 		int randomIndex = randomNumberGenerator.nextInt(numberOfQuotes);
 		String randomQuote = wordsOfWisdom[randomIndex];
 
-		out.println(randomQuote);
+		out.println("\"" + randomQuote + "\"");
 		out.println("</p></body></html>");
 	}
 
