@@ -34,9 +34,14 @@ public class QuoteServlet extends HttpServlet {
 
 		int numberOfQuotes = wordsOfWisdom.length;
 		int randomIndex;
-		do {
+		if (previousRandomIndex == -1) {
 			randomIndex = randomNumberGenerator.nextInt(numberOfQuotes);
-		} while (randomIndex == previousRandomIndex);
+		} else {
+			randomIndex = randomNumberGenerator.nextInt(numberOfQuotes - 1);
+			if (randomIndex == previousRandomIndex) {
+				randomIndex = numberOfQuotes - 1;
+			}
+		}
 		previousRandomIndex = randomIndex;
 		String randomQuote = wordsOfWisdom[randomIndex];
 
