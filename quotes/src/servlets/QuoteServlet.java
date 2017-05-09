@@ -24,6 +24,7 @@ public class QuoteServlet extends HttpServlet {
 			"A program that omits needed synchronization might appear to work, passing its tests and performing well for years, but it is still broken and may fail at any moment.", };
 
 	private Random randomNumberGenerator = new Random();
+	private int previousRandomIndex = -1;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -32,7 +33,11 @@ public class QuoteServlet extends HttpServlet {
 		out.println("<body><h2>Random quote</h2><p>");
 
 		int numberOfQuotes = wordsOfWisdom.length;
-		int randomIndex = randomNumberGenerator.nextInt(numberOfQuotes);
+		int randomIndex;
+		do {
+			randomIndex = randomNumberGenerator.nextInt(numberOfQuotes);
+		} while (randomIndex == previousRandomIndex);
+		previousRandomIndex = randomIndex;
 		String randomQuote = wordsOfWisdom[randomIndex];
 
 		out.println("\"" + randomQuote + "\" (" + (randomIndex + 1) + "/" + numberOfQuotes + ")");
