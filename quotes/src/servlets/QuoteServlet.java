@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/QuoteServlet")
 public class QuoteServlet extends HttpServlet {
@@ -24,7 +25,6 @@ public class QuoteServlet extends HttpServlet {
 			"A program that omits needed synchronization might appear to work, passing its tests and performing well for years, but it is still broken and may fail at any moment.", };
 
 	private Random randomNumberGenerator = new Random();
-	private int previousRandomIndex = -1;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -34,7 +34,9 @@ public class QuoteServlet extends HttpServlet {
 
 		int numberOfQuotes = wordsOfWisdom.length;
 		int randomIndex;
-		if (previousRandomIndex == -1) {
+		HttpSession session = request.getSession();
+		Integer previousRandomIndex = (Integer) session.getAttribute("previousRandomIndex");
+		if (previousRandomIndex == null) {
 			randomIndex = randomNumberGenerator.nextInt(numberOfQuotes);
 		} else {
 			randomIndex = randomNumberGenerator.nextInt(numberOfQuotes - 1);
@@ -42,7 +44,7 @@ public class QuoteServlet extends HttpServlet {
 				randomIndex = numberOfQuotes - 1;
 			}
 		}
-		previousRandomIndex = randomIndex;
+		session.setAttribute("previousRandomIndex", randomIndex);
 		String randomQuote = wordsOfWisdom[randomIndex];
 
 		out.println("\"" + randomQuote + "\" (" + (randomIndex + 1) + "/" + numberOfQuotes + ")");
