@@ -65,6 +65,12 @@ public class QuoteServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String newQuote = request.getParameter("newQuote");
 		allQuotes.add(newQuote);
-		out.println(allQuotes);
+
+		out.println("<html><head><title>Random quotes for everybody</title></head>");
+		out.println("<body><h2>All quotes</h2><ol>");
+		for (String quote : allQuotes) {
+			out.println("<li>" + quote + "</li>");
+		}
+		out.println("</ol></body></html>");
 	}
 }
