@@ -52,7 +52,7 @@ public class QuoteServlet extends HttpServlet {
 		session.setAttribute("previousRandomIndex", randomIndex);
 		String randomQuote = allQuotes.get(randomIndex);
 
-		out.println("\"" + randomQuote + "\" (" + (randomIndex + 1) + "/" + numberOfQuotes + ")");
+		out.println("\"" + escapeHtml(randomQuote) + "\" (" + (randomIndex + 1) + "/" + numberOfQuotes + ")");
 		out.println("</p><h2>Add quote</h2>");
 		out.println("<form method='post'>");
 		out.println("<input type='text' name='newQuote' size='100' />");
@@ -69,8 +69,39 @@ public class QuoteServlet extends HttpServlet {
 		out.println("<html><head><title>Random quotes for everybody</title></head>");
 		out.println("<body><h2>All quotes</h2><ol>");
 		for (String quote : allQuotes) {
-			out.println("<li>" + quote + "</li>");
+			out.println("<li>" + escapeHtml(quote) + "</li>");
 		}
 		out.println("</ol></body></html>");
+	}
+
+	/**
+	 * Replaces ampersand, angle brackets and quotes with their HTML escapes.
+	 */
+	private static String escapeHtml(String raw) {
+		int len = raw.length();
+		StringBuilder escaped = new StringBuilder(len);
+		for (int i = 0; i < len; ++i) {
+			char x = raw.charAt(i);
+			switch (x) {
+			case '&':
+				escaped.append("&amp;");
+				break;
+			case '<':
+				escaped.append("&lt;");
+				break;
+			case '>':
+				escaped.append("&gt;");
+				break;
+			case '"':
+				escaped.append("&quot;");
+				break;
+			case 39:
+				escaped.append("&#39;");
+				break;
+			default:
+				escaped.append(x);
+			}
+		}
+		return escaped.toString();
 	}
 }
