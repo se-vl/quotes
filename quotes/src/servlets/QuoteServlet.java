@@ -102,6 +102,13 @@ public class QuoteServlet extends HttpServlet {
 				escaped.append(x);
 			}
 		}
-		return escaped.toString();
+		// Each dangerous character makes the escaped string longer.
+		// So if the lengths are the same, the strings are the same.
+		// In other words, the raw string is harmless and needs no escaping.
+		boolean rawStringIsHarmless = (escaped.length() == len);
+
+		// Harmless raw strings can simply be returned to the caller.
+		// This makes the (duplicate) escaped string eligible for GC.
+		return rawStringIsHarmless ? raw : escaped.toString();
 	}
 }
