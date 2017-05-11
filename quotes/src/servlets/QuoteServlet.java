@@ -48,7 +48,11 @@ public class QuoteServlet extends HttpServlet {
 		String randomQuote = wordsOfWisdom[randomIndex];
 
 		out.println("\"" + randomQuote + "\" (" + (randomIndex + 1) + "/" + numberOfQuotes + ")");
-		out.println("</p></body></html>");
+		out.println("</p><h2>Add quote</h2>");
+		out.println("<form>");
+		out.println("<input type='text' name='newQuote' size='100' />");
+		out.println("<input type='submit' />");
+		out.println("</form></body></html>");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
