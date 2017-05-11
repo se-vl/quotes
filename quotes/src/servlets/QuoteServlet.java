@@ -49,7 +49,7 @@ public class QuoteServlet extends HttpServlet {
 
 		out.println("\"" + randomQuote + "\" (" + (randomIndex + 1) + "/" + numberOfQuotes + ")");
 		out.println("</p><h2>Add quote</h2>");
-		out.println("<form>");
+		out.println("<form method='post'>");
 		out.println("<input type='text' name='newQuote' size='100' />");
 		out.println("<input type='submit' />");
 		out.println("</form></body></html>");
@@ -57,6 +57,8 @@ public class QuoteServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		PrintWriter out = response.getWriter();
+		String newQuote = request.getParameter("newQuote");
+		out.println(newQuote);
 	}
 }
