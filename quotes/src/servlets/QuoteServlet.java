@@ -2,6 +2,9 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import javax.servlet.ServletException;
@@ -24,6 +27,8 @@ public class QuoteServlet extends HttpServlet {
 			"Whenever more than one thread accesses a given state variable, and one of them might write to it, they all must coordinate their access to it using synchronization. You should avoid the temptation to think that there are 'special' situations in which this rule does not apply.",
 			"A program that omits needed synchronization might appear to work, passing its tests and performing well for years, but it is still broken and may fail at any moment.", };
 
+	private List<String> allQuotes = new ArrayList<>(Arrays.asList(wordsOfWisdom));
+
 	private Random randomNumberGenerator = new Random();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,7 +37,7 @@ public class QuoteServlet extends HttpServlet {
 		out.println("<html><head><title>Random quotes for everybody</title></head>");
 		out.println("<body><h2>Random quote</h2><p>");
 
-		int numberOfQuotes = wordsOfWisdom.length;
+		int numberOfQuotes = allQuotes.size();
 		int randomIndex;
 		HttpSession session = request.getSession();
 		Integer previousRandomIndex = (Integer) session.getAttribute("previousRandomIndex");
@@ -45,7 +50,7 @@ public class QuoteServlet extends HttpServlet {
 			}
 		}
 		session.setAttribute("previousRandomIndex", randomIndex);
-		String randomQuote = wordsOfWisdom[randomIndex];
+		String randomQuote = allQuotes.get(randomIndex);
 
 		out.println("\"" + randomQuote + "\" (" + (randomIndex + 1) + "/" + numberOfQuotes + ")");
 		out.println("</p><h2>Add quote</h2>");
@@ -59,6 +64,7 @@ public class QuoteServlet extends HttpServlet {
 			throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		String newQuote = request.getParameter("newQuote");
-		out.println(newQuote);
+		allQuotes.add(newQuote);
+		out.println(allQuotes);
 	}
 }
