@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,10 +34,6 @@ public class QuoteServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		out.println("<html><head><title>Random quotes for everybody</title></head>");
-		out.println("<body><h2>Random quote</h2><p>");
-
 		int numberOfQuotes = allQuotes.size();
 		int randomIndex;
 		HttpSession session = request.getSession();
@@ -52,12 +49,11 @@ public class QuoteServlet extends HttpServlet {
 		session.setAttribute("previousRandomIndex", randomIndex);
 		String randomQuote = allQuotes.get(randomIndex);
 
-		out.println("\"" + escapeHtml(randomQuote) + "\" (" + (randomIndex + 1) + "/" + numberOfQuotes + ")");
-		out.println("</p><h2>Add quote</h2>");
-		out.println("<form method='post'>");
-		out.println("<input type='text' name='newQuote' size='100' />");
-		out.println("<input type='submit' />");
-		out.println("</form></body></html>");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/RandomQuote.jsp");
+		request.setAttribute("randomQuote", randomQuote);
+		request.setAttribute("randomIndex", randomIndex);
+		request.setAttribute("numberOfQuotes", numberOfQuotes);
+		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
