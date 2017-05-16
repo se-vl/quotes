@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,53 +57,11 @@ public class QuoteServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
 		String newQuote = request.getParameter("newQuote");
 		allQuotes.add(newQuote);
 
-		out.println("<html><head><title>Random quotes for everybody</title></head>");
-		out.println("<body><h2>All quotes</h2><ol>");
-		for (String quote : allQuotes) {
-			out.println("<li>" + escapeHtml(quote) + "</li>");
-		}
-		out.println("</ol></body></html>");
-	}
-
-	/**
-	 * Replaces ampersand, angle brackets and quotes with their HTML escapes.
-	 */
-	private static String escapeHtml(String raw) {
-		int len = raw.length();
-		StringBuilder escaped = new StringBuilder(len);
-		for (int i = 0; i < len; ++i) {
-			char x = raw.charAt(i);
-			switch (x) {
-			case '&':
-				escaped.append("&amp;");
-				break;
-			case '<':
-				escaped.append("&lt;");
-				break;
-			case '>':
-				escaped.append("&gt;");
-				break;
-			case '"':
-				escaped.append("&quot;");
-				break;
-			case 39:
-				escaped.append("&#39;");
-				break;
-			default:
-				escaped.append(x);
-			}
-		}
-		// Each dangerous character makes the escaped string longer.
-		// So if the lengths are the same, the strings are the same.
-		// In other words, the raw string is harmless and needs no escaping.
-		boolean rawStringIsHarmless = (escaped.length() == len);
-
-		// Harmless raw strings can simply be returned to the caller.
-		// This makes the (duplicate) escaped string eligible for GC.
-		return rawStringIsHarmless ? raw : escaped.toString();
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/AllQuotes.jsp");
+		request.setAttribute("allQuotes", allQuotes);
+		dispatcher.forward(request, response);
 	}
 }
