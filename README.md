@@ -1,3 +1,27 @@
+## Wie bekomme ich das Projekt in mein Eclipse?
+
+    File / Import...
+    Git / Projects from Git
+    Next
+
+    Clone URI
+    Next
+
+    URI: https://github.com/se-vl/quotes.git
+    Next
+
+    Deselect All
+    [x] master
+    Next
+
+    Next
+    Next
+    Finish
+
+## Wie hole ich mir später die neueste Version?
+
+    Project Explorer / quotes [quotes master] (right-click) / Team / Pull
+
 ## Eclipse [Download](http://www.eclipse.org/downloads/eclipse-packages)
 
     Download Eclipse IDE for Java EE Developers 64 bit
