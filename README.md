@@ -41,13 +41,12 @@
     [x] Remember my decision
     Yes
 
-    Right-click on Project Explorer / quotes / Java Resources / src
-    New / Servlet
+    Project Explorer / quotes / Java Resources / src (right-click) / New / Servlet
     Java package: servlets
     Class name: QuoteServlet
     Finish
 
-    Right-click on QuoteServlet.java / Run As / Run on Server
+    QuoteServlet.java (right-click) / Run As / Run on Server
     [x] Always use this server when running this project
     Finish
 
