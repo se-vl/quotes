@@ -48,10 +48,13 @@ public class QuoteServlet extends HttpServlet {
 		session.setAttribute("previousRandomIndex", randomIndex);
 		String randomQuote = allQuotes.get(randomIndex);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/RandomQuote.jsp");
+		// fill the model
 		request.setAttribute("randomQuote", randomQuote);
 		request.setAttribute("randomIndex", randomIndex);
 		request.setAttribute("numberOfQuotes", numberOfQuotes);
+
+		// forward to the view
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/RandomQuote.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -60,8 +63,11 @@ public class QuoteServlet extends HttpServlet {
 		String newQuote = request.getParameter("newQuote");
 		allQuotes.add(newQuote);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/AllQuotes.jsp");
+		// fill the model
 		request.setAttribute("allQuotes", allQuotes);
+
+		// forward to the view
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/AllQuotes.jsp");
 		dispatcher.forward(request, response);
 	}
 }
